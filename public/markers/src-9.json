@@ -1,0 +1,5 @@
+{"d":[
+	{"id":"a", "t":"twitter", "x":256, "y":256, "name":"a", "type":0},
+    {"id":"a", "t":"twitter", "x":128, "y":128, "name":"b", "type":0},
+    {"id":"a", "t":"twitter", "x":145, "y":50, "name":"c", "type":0}
+]}

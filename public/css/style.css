@@ -1,0 +1,88 @@
+html, body, #map {
+    height: 100%;
+}
+
+body {
+    margin:0;
+    padding:0;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 700px;
+}
+.container > hr {
+    margin: 30px 0;
+}
+
+.info {
+    margin: 60px 0;
+}
+.info p + h4 {
+    margin-top: 28px;
+}
+
+label{
+    font-weight:bold;
+}
+
+.overlay{
+    position:absolute;
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    color: #223;
+    background-color:rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+.mapTitle{
+    position: absolute;
+    top:0px;
+    left:55px;
+    right:5%;
+    text-align: center;
+}
+
+.titleLabel{
+    margin-top:8px;
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    color: #223;
+    background-color:rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+.buttons{
+    position: absolute;
+    top:25px;
+    right:25px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.markerA{
+    background-color:#ffffff;
+    box-shadow: 4px 4px 5px 2px #cccccc;
+    -webkit-opacity: 0.75;
+    -moz-opacity: 0.75;
+    filter:alpha(opacity=75);
+}
+
+.overlay {
+    background: #fff;
+    width:      100%;
+    height:     100%;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    position:   fixed;
+}
+
+.overlay .center{
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width:300px;
+}

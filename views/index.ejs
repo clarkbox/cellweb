@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Map</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/css/leaflet.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <script src="/js/underscore.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/leaflet.js"></script>
+
+    <script>
+    (function(){
+
+        var markerDataUrl = '/markers.json';
+        var markerPollTimeout = 1000;
+        var markers;
+        var markerLayerGroup;
+        var map;
+
+        $(function(){
+            var inputMac = $('#inputMac');
+            var inputTwitter = $('#inputTwitter');
+            var $overlay = $('.overlay');
+            var $map = $('#map');
+
+            $('#closeOverlay').on('click', function(){
+                $overlay.hide();
+                $map.show();
+            });
+
+            $('#submitRegistration').on('click', function(){
+                $.ajax({
+                    type:'GET',
+                    url: '/register',
+                    data: {
+                        twitter: inputTwitter.val(),
+                        mac: inputMac.val()
+                    }
+                }).done(function(res){
+                    if(res == 0){
+                        $overlay.hide();
+                        $map.show();
+                    }else{
+                        alert('Error Registering:\n'+res);
+                    }
+                }).fail(function(){
+                    alert('There was an error registering with the server.\n\nPlease refresh and/or try again later.');
+                });
+            });
+
+            $('#register').on('click', function(){
+                $map.hide();
+                $overlay.show();
+            });
+
+            L.Icon.Default.imagePath = 'img';
+            map = L.map('map', {
+                crs: L.CRS.Simple,
+                maxZoom: 5,
+                minZoom: 1
+            });
+
+            markerLayerGroup = new L.LayerGroup().addTo(map);
+
+            L.tileLayer('http://{s}/tiles/{z}/{x}/{y}.png', {
+                tms: true,
+                subdomains: ['splunk.jquery.com', 'splunk.jquery.com:81'],
+                detectRetina: true,
+                noWrap: true
+            }).addTo(map);
+
+            //var maxZoom = 5;
+            //var mapHeight = 16384;
+            //var mapWidth = 16384;
+            //var southWest = map.unproject([0, mapWidth], maxZoom);
+            //var northEast = map.unproject([mapHeight, 0], maxZoom);
+            //map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
+
+            var center = map.unproject([128, 128], 0);
+            map.setView(center, 1);
+
+            pollForMarkers();
+        });
+
+        function pollForMarkers(){
+            $.ajax({
+                url: markerDataUrl
+            }).done(function(data){
+                data = data.d;
+                drawMarkers(data);
+            }).fail(function(){
+                console.log('failed to get marker data', arguments);
+            }).always(function(){
+                setTimeout(pollForMarkers, markerPollTimeout)
+            });
+        }
+
+        function drawMarkers(data){
+            markerLayerGroup.clearLayers();
+            $.each(data, function(i, marker){
+                var html = _.template(markerTemplate, {
+                    twitter: marker.t,
+                    name: marker.t || marker.name || 'anon'
+                });
+
+                var divIcon = L.divIcon({
+                    iconSize: new L.Point(50, 50),
+                    className: 'leaflet-div-icon-person',
+                    html: html
+                });
+
+                L.marker(map.unproject([marker.x,marker.y],0),{
+                    icon: divIcon,
+                    riseOnHover: true
+
+                }).addTo(markerLayerGroup);
+            });
+        }
+
+        var markerTemplate = "<div class='markerA'> <%=name%>" +
+        "<%if(twitter){%>" +
+        "<img src='https://api.twitter.com/1/users/profile_image?screen_name=jquery'>" +
+        "<%}%>" +
+        "</div>";
+
+    })();
+    </script>
+
+</head>
+<body>
+    <div class="overlay" style="text-align:center;display:none;">
+        <div class="close"></div>
+        <div class="center">
+            <h1>Where am I?</h1>
+            <p>Enter your Bluetooth(tm) mac address and twitter handle to see your location displayed on the map. All users to this site will also be able to see your location.</p>
+            <form>
+                <fieldset>
+                    <label>Bluetooth Mac</label>
+                    <input type="text" id="inputMac" placeholder="00:00:00:00:00:00">
+                    <!-- span class="help-block">We will locate you finding your device. Formatting does not matter - any non hexadecimal characters will be removed.</span -->
+
+                    <label>Twitter Handle</label>
+                    <input type="text" id="inputTwitter" placeholder="" style="margin-bottom:30px;">
+                    <!-- span class="help-block">Enter your twitter handle so your friends can find you. This is optional. Only provide it if you want your location displayed in real time on the map for other users.</span -->
+
+                    <button class="btn btn-large btn-primary btn-block" id="submitRegistration" type="button">Register</button>
+                    <button class="btn btn-large btn-block" id="closeOverlay" type="button">Close</button>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="mapTitle">
+        <span class="titleLabel">Venue Map</span>
+    </div>
+    <div id="map"></div>
+
+    <div class="buttons">
+        <button class="btn btn-small btn-primary" id="register" type="button">Where Am I?</button>
+    </div>
+</body>
+</html>
