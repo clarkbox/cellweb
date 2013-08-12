@@ -1,4 +1,5 @@
-var logger = require('simple-log').init('cellweb');
+var winston = require('winston');
+var appLog = winston.loggers.get('applog');
 
 module.exports = function(req, res){
     var twitter = req.query.twitter;
@@ -46,7 +47,7 @@ module.exports = function(req, res){
     }
 
     //TODO log much more about client
-    logger.log('register: twitter=' + filteredTwitter + ' mac='+ colMac + ' ip='+ req.connection.remoteAddress );
+    appLog.info('register: twitter=' + filteredTwitter + ' mac='+ colMac + ' ip='+ req.connection.remoteAddress );
 
     res.send('');
 };

@@ -1,5 +1,9 @@
 {
-    "markerPath": "public",
-    "markerFile": "markers.json",
-    "port": 80
+    "markerPath": "public/markers.json",
+    "port": 80,
+    "macTableJsonPath": "data/mactable.json",
+    "macTableCsvPath": "data/mactable.csv",
+    "httpAccessLogPath":"/srv/log/access.log",
+    "macTablePollInterval": 2000,
+    "cellSiteConfigFile": "data/cellSiteConfig.json"
 }

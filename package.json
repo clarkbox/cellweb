@@ -9,6 +9,10 @@
     "express": "3.2.4",
     "ejs": "*",
     "underscore": "*",
-    "simple-log": "*"
+    "simple-log": "*",
+    "winston": "*",
+    "passport":"*",
+    "passport-local":"*",
+    "connect-flash":"*"
   }
 }

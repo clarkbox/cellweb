@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CONFIG</title>
+
+    <meta charset="utf-8">
+
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/css/leaflet.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <script src="/js/underscore.js"></script>
+    <script src="/js/jquery.js"></script>
+
+    <script>
+        $(function(){
+            $('#savebtn').on('click', function(){
+                $.ajax({
+                    type:'POST',
+                    url: '/config',
+                    data: {
+                        config: $('#config').val()
+                    }
+                }).done(function(res){
+                    if(res == 0){
+                        alert('Saved. Will refresh now.');
+                        window.location.reload();
+                    }else{
+                        alert('Error Saving:\n'+res);
+                    }
+                }).fail(function(){
+                    alert('There was an error saving to the server.');
+                });
+            });
+        })();
+    </script>
+
+</head>
+<body>
+
+<div>
+    <textarea id="config">[[-configStr]]</textarea>
+    <br>
+    <input type="button" value="save" id="savebtn" />
+</div>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+/*
+* this is a sample file
+* in production, this file is constantly updated in place via "scripts/splunk-mactable.js"
+*/
+{
+    "01:00:00:00:00:00":"test1",
+    "02:00:00:00:00:00":"test2",
+    "03:00:00:00:00:00":"test3"
+}
