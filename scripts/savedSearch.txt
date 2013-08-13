@@ -1,0 +1,20 @@
+# this is the saved search used to generate the CSV file.
+# to be replaced by REST call to splunkd.
+[mactable]
+action.email.inline = 1
+action.email.reportServerEnabled = 0
+action.script = 1
+action.script.filename = moveMacTable.sh
+alert.digest_mode = True
+alert.suppress = 0
+alert.track = 0
+auto_summarize.dispatch.earliest_time = -1d@h
+auto_summarize.timespan = 1m
+cron_schedule = * * * * *
+dispatch.earliest_time = -30m@m
+dispatch.latest_time = now
+displayview = flashtimeline
+enableSched = 1
+request.ui_dispatch_view = flashtimeline
+search = index=ping register |table mac twitter |outputcsv macs
+vsid = hhu3it4j
