@@ -1,6 +1,6 @@
 var express = require('express'),
     config = require('./config.json'),
-    http = require('http'),
+    https = require('https'),
     path = require('path'),
     winston = require('winston'),
     fs = require('fs'),
@@ -201,7 +201,11 @@ function start(){
         }
     );
 
-    var server = http.createServer(app);
+    var server = https.createServer({
+        key: fs.readFileSync('/srv/key.pem'),
+        cert: fs.readFileSync('/srv/cert.pem')
+    }, app);
+
     server.listen(app.get('port'), function(){
         appLog.info("server listening on port " + app.get('port'));
     });

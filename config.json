@@ -1,6 +1,6 @@
 {
     "markerPath": "public/markers.json",
-    "port": 80,
+    "port": 443,
     "macTableJsonPath": "data/mactable.json",
     "macTableCsvPath": "data/mactable.csv",
     "httpAccessLogPath":"/srv/log/access.log",
