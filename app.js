@@ -79,6 +79,9 @@ var appLog = winston.loggers.add('applog', {
         level: 'silly',
         colorize: 'true',
         label: 'app-log'
+    },
+    file: {
+        filename: config.appLogPath
     }
 });
 
