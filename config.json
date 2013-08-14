@@ -1,9 +1,10 @@
 {
     "markerPath": "public/markers.json",
     "port": 443,
-    "macTableJsonPath": "data/mactable.json",
-    "macTableCsvPath": "data/mactable.csv",
+    "macTableJsonPath": "/srv/cellweb/data/mactable.json",
+    "macTableCsvPath": "/opt/splunk/var/run/splunk/macs.csv",
     "httpAccessLogPath":"/srv/log/access.log",
+    "appLogPath":"/srv/log/app.log",
     "macTablePollInterval": 2000,
     "cellSiteConfigFile": "data/cellSiteConfig.json"
 }

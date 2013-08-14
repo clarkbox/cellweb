@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/local/bin/node
 
 /**
  * this is a simple script to take the csv output by splunk, translate to json, and save to the right spot.
@@ -7,12 +7,11 @@
 */
 
 var config = require('../config.json'),
-    logger = require('simple-log').init('splunk-mactable'),
     fs = require('fs');
 
 fs.readFile(config.macTableCsvPath, function(err, data){
     if(err){
-        logger.error('could not read mac table file', err);
+        console.error('could not read mac table file', err);
     }else{
         //TODO i am sure there is a better way/lib to do the following
         var result = [];
@@ -24,6 +23,6 @@ fs.readFile(config.macTableCsvPath, function(err, data){
             json[fields[0]] = fields[1];
             result.push(json);
         }
-        fs.writeFile(config.macTableJsonPath, JSON.stringify(result));
+        fs.writeFile('../'+config.macTableJsonPath, JSON.stringify(result));
     }
 });

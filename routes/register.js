@@ -35,19 +35,25 @@ module.exports = function(req, res){
     //sloppy seconds anyone?
     //TODO fix this ugly with some regex magic
     var x=1;
-    var colMac='';
+    var colonlessMac='';
     for(var i= 0, len= filteredMac.length; i<len; i++){
         var c = filteredMac[i];
-        colMac += c;
+        colonlessMac += c;
         if(x===2 && i+1!=len){
-            colMac+=':';
+            colonlessMac+=':';
             x = 0;
         }
         x++;
     }
 
     //TODO log much more about client
-    appLog.info('register: twitter=' + filteredTwitter + ' mac='+ colMac + ' ip='+ req.connection.remoteAddress );
+    //appLog.info('register: twitter=' + filteredTwitter + ' mac='+ colonlessMac + ' ip='+ req.connection.remoteAddress );
+    appLog.info({
+        type:'register',
+        twitter: filteredTwitter,
+        mac: colonlessMac,
+        ip:req.connection.remoteAddress
+    });
 
     res.send('');
 };
