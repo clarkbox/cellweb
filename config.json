@@ -5,6 +5,6 @@
     "macTableCsvPath": "/opt/splunk/var/run/splunk/macs.csv",
     "httpAccessLogPath":"/srv/log/access.log",
     "appLogPath":"/srv/log/app.log",
-    "macTablePollInterval": 2000,
+    "macTablePollInterval": 10000,
     "cellSiteConfigFile": "data/cellSiteConfig.json"
 }
