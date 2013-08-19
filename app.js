@@ -9,6 +9,7 @@ var express = require('express'),
     querystring = require('querystring'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
+    BasicStrategy = require('passport-http').BasicStrategy,
     flash = require('connect-flash');
 
 /*START PASSPORT*/
@@ -54,8 +55,19 @@ passport.use(new LocalStrategy(
                 if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
                 if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
                 return done(null, user);
-            })
+            });
         });
+    }
+));
+
+passport.use(new BasicStrategy(
+    function(username, password, done) {
+        findByUsername(username, function(err, user) {
+            if (err) { return done(err); }
+            if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+            if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
+            return done(null, user);
+        })
     }
 ));
 /*END PASSPORT*/
@@ -171,7 +183,7 @@ function start(){
 
     //endpoint for getting and submitting a mac target
     var next = require('./routes/next.js');
-    app.post('/next', next);
+    app.post('/next', passport.authenticate('basic', { session: false }), next);
 
     //the config interface
     var configGui = require('./routes/configGui.js');
@@ -182,7 +194,7 @@ function start(){
 
     //endpoint returning config
     var getConfig = require('./routes/getConfig.js');
-    app.get('/getconfig', getConfig);
+    app.get('/getconfig', passport.authenticate('basic', { session: false }), getConfig);
 
     app.get('/login', function(req, res){
         res.render('login', { user: req.user, message: req.flash('error'), to: req.query.to });
