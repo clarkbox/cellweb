@@ -1,6 +1,8 @@
-{
-    "d":[
-        {"t":"bob", "x":100, "y":100},
-        {"t":"jim", "x":220, "y":220}
-    ]
-}
+[
+    {"twitter-handle":"@twitter_handle",
+        "pos":[2.3857050869285255, 0.0]
+    },
+    {"twitter-handle":"@someone_else",
+        "pos":[2.0, 0.6666666666666667]
+    }
+]
