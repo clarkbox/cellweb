@@ -17,7 +17,6 @@
 
     <script>
     (function(){
-
         var markerDataUrl = '/markers.json';
         var markerPollTimeout = 1000;
         var markers;
@@ -90,10 +89,9 @@
         });
 
         function pollForMarkers(){
-            $.ajax({
+	        $.ajax({
                 url: markerDataUrl
             }).done(function(data){
-                data = data.d;
                 drawMarkers(data);
             }).fail(function(){
                 console.log('failed to get marker data', arguments);
@@ -103,11 +101,12 @@
         }
 
         function drawMarkers(data){
-            markerLayerGroup.clearLayers();
+            if(!data){return}
+	    markerLayerGroup.clearLayers();
             $.each(data, function(i, marker){
                 var html = _.template(markerTemplate, {
-                    twitter: marker.t,
-                    name: marker.t || marker.name || 'anon'
+                    twitter: marker['twitter-handle'],
+                    name: marker['twitter-handle'] || 'anon'
                 });
 
                 var divIcon = L.divIcon({
@@ -116,10 +115,9 @@
                     html: html
                 });
 
-                L.marker(map.unproject([marker.x,marker.y],0),{
+                L.marker(map.unproject([marker.pos[0],marker.pos[1]],0),{
                     icon: divIcon,
                     riseOnHover: true
-
                 }).addTo(markerLayerGroup);
             });
         }
