@@ -119,7 +119,6 @@ function pollMacTable(){
 
 function httplog(req, res, next){
     var parsedUrl = url.parse(req.url);
-    console.log(req.url)
     var body = '';
     req.on('data', function(chunk) {
         body += chunk.toString();
